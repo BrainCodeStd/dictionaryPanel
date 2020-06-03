@@ -3,7 +3,6 @@ import { Col, Row, Modal} from "react-bootstrap";
 import Card from '../Card/Card';
 import ReactTable from "react-table";
 import "react-table/react-table.css";
-import QuantityUpdate from "./ReturnQuantity"
 const EditQuiz = (prop) => {
     const[obj]=useState({})
     const[view,setView]=useState(false)
@@ -48,7 +47,6 @@ const EditQuiz = (prop) => {
     ]
     return (<div>
 
-<QuantityUpdate obj={obj} show={view} handleClose={()=>setView(false)}/>
     
         <Modal show={prop.show} onHide={prop.handleClose} bsSize="lg">
             <Modal.Header className="mdhead" closeButton >
