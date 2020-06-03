@@ -6,6 +6,8 @@ import Card from "../Card/Card"
 import Button from "../CustomButton/CustomButton"
 import { getAllWords, updateTerm } from "../../api/api"
 import Switch from "react-switch"
+import { REG_BTN_NAME, REG_SUCCESS } from "../../misc/constants";
+import { SuccessfullToast, ErrorToast } from "../../misc/helper"
 import EditTerm from "../Modals/EditQuiz";
 const Sale = (props) => {
 
@@ -22,6 +24,7 @@ const Sale = (props) => {
         setUpLoading(true);
         updateTerm(id, data).then(res => {
             if (res.error) { } else {
+                SuccessfullToast(res.data.message)
                 get()
             }
         })
@@ -34,14 +37,13 @@ const Sale = (props) => {
             term: '',
             allwords: true
         }
-        if (state.filtered) {
+        if (state) {
             state.filtered.forEach(element => {
                 newParams[element.id] = element.value
             })
         }
         getAllWords(newParams).then(res => {
             if (res.error) { } else {
-
                 setDataDB(res.data.data)
                 setMetaData(res.data.metadata[0])
                 setLoading(false)
@@ -62,7 +64,8 @@ const Sale = (props) => {
                     className="react-switch"
                 />,
                 view: <Button fill onClick={() => {
-                    setItems(element)
+                    setItems(true)
+                    setItemsData(element)
                 }}><i class="fa fa-edit"></i></Button>
             }
 
@@ -93,7 +96,7 @@ const Sale = (props) => {
         },
 
         {
-            Header: "Edit",
+            Header: () => <div style={{ textAlign: "left" }}>Edit</div>,
             accessor: "view",
             sortable: false,
             filterable: false
@@ -105,7 +108,7 @@ const Sale = (props) => {
             <Card
                 content={
                     <ReactTable
-                        data={data}
+                        data={data ? data : data}
                         columns={columns}
                         defaultPageSize={10}
                         onFetchData={get}

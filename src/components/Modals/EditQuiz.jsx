@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
-import { Col, Row, Button, Modal, FormGroup, ControlLabel, Image } from "react-bootstrap";
+import { Col, Row, Button, Modal, FormGroup, ControlLabel } from "react-bootstrap";
 import _ from 'lodash'
 import { useForm } from 'react-hook-form';
 const EditQuiz = (prop) => {
+    const [term, setTerm] = useState(prop.data.term);
+    const [defination, setDefination] = useState(prop.data.defination);
+
     const {
         register,
-        handleSubmit,
+        handleSubmit
     } = useForm({
         defaultValues: {
-            'term': prop.data.term,
-            'defination': prop.data.defination,
+            'term': term,
+            'defination': defination,
         }
     });
-    console.log(prop)
     const onSubmit = (data) => {
         prop.update(prop.data._id, data)
+        prop.handleClose()
     };
 
     return (
